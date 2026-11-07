@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FE2 Integrated Systems</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/jpeg" href="icon.jpg" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand">Christian Josh Lingad <br><span>BSCS301</span></div>
+        <div class="top-note">Final Project · Two systems, one platform</div>
+      </header>
+
+      <main id="home">
+        <section class="home-hero">
+          <div class="eyebrow">Free Elective 2 · Integrated Project</div>
+          <h1>
+            One platform.<br /><span style="color: var(--mint)"
+              >Two useful systems.</span
+            >
+          </h1>
+          <p>
+            Choose which system you want to open. Both projects are gathered in
+            one homepage, with a consistent interface and separate tools for
+            each purpose.
+          </p>
+        </section>
+        <section class="system-grid">
+          <article class="system-card">
+            <div class="system-icon">✈</div>
+            <div class="tag">SYSTEM 01</div>
+            <h2>Travel Expenses Tracker</h2>
+            <p>
+              Plan a trip budget, record expenses, view remaining funds, and
+              estimate currency conversions for your destination.
+            </p>
+            <button class="launch" onclick="openSystem('travel')">
+              Open Travel Tracker <span class="arrow">↗</span>
+            </button>
+          </article>
+          <article class="system-card">
+            <div class="system-icon">▥</div>
+            <div class="tag">SYSTEM 02</div>
+            <h2>Population Simulation Model</h2>
+            <p>
+              Simulate population growth and decay over time, compare four model
+              outputs, and view the results in a table and chart.
+            </p>
+            <button class="launch" onclick="openSystem('population')">
+              Open Population Model <span class="arrow">↗</span>
+            </button>
+          </article>
+        </section>
+        <div class="footer">
+          FE2 Integrated Systems · TravelMoney Planner & Population Simulation
+          Model
+        </div>
+      </main>
+
+      <section id="travel" class="hidden">
+        <div class="app-header">
+          <div>
+            <h1 class="app-title">Travel Expenses Tracker</h1>
+            <p class="app-sub">
+              TravelMoney Planner · Budget and finance tracker
+            </p>
+          </div>
+          <button class="back" onclick="goHome()">← Back to homepage</button>
+        </div>
+        <section class="travel-hero">
+          <div class="panel hero-copy">
+            <div class="eyebrow">Travel budget planner</div>
+            <h2>Plan your money before you move.</h2>
+            <p>
+              Track your trip budget, estimate destination costs, and keep an
+              eye on flights, accommodation, food, transport, and emergency
+              savings.
+            </p>
+            <button
+              class="btn secondary"
+              onclick="document.getElementById('expenseName').focus()"
+            >
+              Add spending
+            </button>
+            <button class="btn secondary" onclick="resetTravel()">
+              Reset plan
+            </button>
+          </div>
+          <aside class="panel budget-card">
+            <div class="mini">Trip budget</div>
+            <div class="big" id="budgetTotal">₱0</div>
+            <div class="mini">Remaining after costs</div>
+            <div class="big" style="font-size: 1.7rem" id="remainingBudget">
+              ₱0
+            </div>
+            <div class="progress-meta">
+              <span>Budget used</span><span id="spentPercent">0%</span>
+            </div>
+            <div class="bar"><div class="fill" id="budgetProgress"></div></div>
+          </aside>
+        </section>
+        <section class="stats">
+          <div class="panel stat">
+            <div class="mini">Planned spend</div>
+            <strong id="plannedSpend">₱0</strong>
+            <div class="mini">Expenses added</div>
+          </div>
+          <div class="panel stat">
+            <div class="mini">Daily allowance</div>
+            <strong id="dailyAllowance">₱0</strong>
+            <div class="mini">Per day</div>
+          </div>
+          <div class="panel stat">
+            <div class="mini">Emergency fund</div>
+            <strong id="emergencyFund">₱0</strong>
+            <div class="mini">15% of budget</div>
+          </div>
+          <div class="panel stat">
+            <div class="mini">Currency rate</div>
+            <strong id="currencyRate">1.00</strong>
+            <div class="mini">Local / home</div>
+          </div>
+        </section>
+        <section class="two-col">
+          <div class="panel pad">
+            <h3>Trip setup</h3>
+            <div class="form-grid">
+              <div class="field">
+                <label for="destination">Destination country</label
+                ><input
+                  id="destination"
+                  value="Japan"
+                  placeholder="Japan, Canada, Germany..."
+                />
+              </div>
+              <div class="field">
+                <label for="tripLength">Trip length (days)</label
+                ><input id="tripLength" type="number" min="1" value="30" />
+              </div>
+              <div class="field">
+                <label for="homeCurrency">Home currency</label
+                ><select id="homeCurrency">
+                  <option>PHP</option>
+                  <option>USD</option>
+                  <option>EUR</option>
+                  <option>GBP</option>
+                  <option>JPY</option>
+                  <option>AUD</option>
+                  <option>CAD</option>
+                  <option>SGD</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="localCurrency">Local currency</label
+                ><select id="localCurrency">
+                  <option>JPY</option>
+                  <option>USD</option>
+                  <option>EUR</option>
+                  <option>GBP</option>
+                  <option>AUD</option>
+                  <option>CAD</option>
+                  <option>SGD</option>
+                  <option>PHP</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="budgetInput">Total budget</label
+                ><input
+                  id="budgetInput"
+                  type="number"
+                  min="0"
+                  step="50"
+                  value="32000"
+                />
+              </div>
+            </div>
+            <hr class="section-divider" />
+            <h3>Add expense</h3>
+            <div class="form-grid">
+              <div class="field">
+                <label for="expenseName">Expense name</label
+                ><input id="expenseName" placeholder="Accommodation" />
+              </div>
+              <div class="field">
+                <label for="expenseCategory">Category</label
+                ><select id="expenseCategory">
+                  <option>Flight</option>
+                  <option>Accommodation</option>
+                  <option>Food</option>
+                  <option>Transport</option>
+                  <option>Insurance</option>
+                  <option>Shopping</option>
+                  <option>Emergency</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="expenseAmount">Amount (home currency)</label
+                ><input
+                  id="expenseAmount"
+                  type="number"
+                  min="0"
+                  step="10"
+                  placeholder="500"
+                />
+              </div>
+            </div>
+            <div style="margin-top: 16px">
+              <button class="btn primary" id="addExpenseBtn">
+                Save expense
+              </button>
+            </div>
+          </div>
+          <aside class="panel pad">
+            <h3>Travel snapshot</h3>
+            <div class="currency-box">
+              <div class="mini">Estimated exchange value</div>
+              <div class="currency-row">
+                <span>1 home currency</span
+                ><strong id="exchangeRateValue">1.00 JPY</strong>
+              </div>
+              <div class="currency-row">
+                <span>Budget in local currency</span
+                ><strong id="budgetLocalValue">¥0</strong>
+              </div>
+              <div class="currency-row">
+                <span>Daily budget</span
+                ><strong id="dailyBudgetLocalValue">¥0</strong>
+              </div>
+            </div>
+            <div style="margin-top: 22px">
+              <h3>Expense list</h3>
+              <ul class="expense-list" id="expenseList"></ul>
+            </div>
+            <p class="note">
+              Currency values use the sample rates included in this project.
+              Update the rates in the code if your instructor requires current
+              exchange rates.
+            </p>
+          </aside>
+        </section>
+        <div class="footer">
+          Travel Expenses Tracker · FE2 Integrated Systems
+        </div>
+      </section>
+
+      <section id="population" class="hidden">
+        <div class="app-header">
+          <div>
+            <h1 class="app-title">Population Simulation Model</h1>
+            <p class="app-sub">
+              Compare population growth and decay across multiple years.
+            </p>
+          </div>
+          <button class="back" onclick="goHome()">← Back to homepage</button>
+        </div>
+        <div class="panel model-intro">
+          <div class="eyebrow">Population simulator</div>
+          <h2 style="margin: 8px 0 0">
+            Explore how a population changes over time.
+          </h2>
+          <p>
+            Enter an initial population, a rate, and the number of years. The
+            model calculates unconstrained exponential growth and decay, plus
+            constrained comparison models.
+          </p>
+        </div>
+        <div class="model-grid">
+          <aside class="panel model-controls">
+            <h3>Simulation settings</h3>
+            <div class="field">
+              <label for="initialPop">Initial population</label
+              ><input id="initialPop" type="number" min="1" value="100" />
+            </div>
+            <div class="field">
+              <label for="popRate">Rate (%)</label
+              ><input
+                id="popRate"
+                type="number"
+                min="0"
+                max="100"
+                step=".1"
+                value="10"
+              />
+            </div>
+            <div class="field">
+              <label for="years">Number of years</label
+              ><input id="years" type="number" min="1" max="50" value="5" />
+            </div>
+            <div class="field">
+              <label for="capacity"
+                >Carrying capacity (constrained growth)</label
+              ><input id="capacity" type="number" min="1" value="500" />
+            </div>
+            <button
+              class="btn primary"
+              style="width: 100%; margin-top: 5px"
+              onclick="runSimulation()"
+            >
+              Run simulation
+            </button>
+            <button
+              class="btn secondary"
+              style="width: 100%; margin-top: 9px"
+              onclick="resetSimulation()"
+            >
+              Restore sample values
+            </button>
+            <p class="note">
+              The carrying capacity limits the constrained-growth model. The
+              constrained-decay comparison uses 90% of the entered decay rate.
+            </p>
+          </aside>
+          <section class="panel model-results">
+            <h3>Simulation results</h3>
+            <div class="model-summary">
+              <div class="summary-tile">
+                <div class="mini">Initial population</div>
+                <strong id="summaryInitial">100</strong>
+              </div>
+              <div class="summary-tile">
+                <div class="mini">Final growth (unconstrained)</div>
+                <strong id="summaryGrowth">164.87</strong>
+              </div>
+              <div class="summary-tile">
+                <div class="mini">Final decay (unconstrained)</div>
+                <strong id="summaryDecay">60.65</strong>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Year</th>
+                    <th>Unconstrained Growth</th>
+                    <th>Unconstrained Decay</th>
+                    <th>Constrained Growth</th>
+                    <th>Constrained Decay</th>
+                  </tr>
+                </thead>
+                <tbody id="populationRows"></tbody>
+              </table>
+            </div>
+            <div class="chart-box">
+              <h3>Population trend</h3>
+              <svg
+                id="populationChart"
+                viewBox="0 0 760 280"
+                role="img"
+                aria-label="Population simulation line chart"
+                style="width: 100%; height: auto; display: block"
+              ></svg>
+              <div class="chart-legend">
+                <span
+                  ><i class="dot" style="background: #6ee7b7"></i>Unconstrained
+                  growth</span
+                ><span
+                  ><i class="dot" style="background: #7dd3fc"></i>Unconstrained
+                  decay</span
+                ><span
+                  ><i class="dot" style="background: #fbbf24"></i>Constrained
+                  growth</span
+                ><span
+                  ><i class="dot" style="background: #fb7185"></i>Constrained
+                  decay</span
+                >
+              </div>
+            </div>
+            <p class="note">
+              Formula notes: Unconstrained growth/decay use P(t) = P₀ × e^(±rt).
+              Constrained growth uses the logistic model P(t) = K / [1 + ((K −
+              P₀) / P₀)e^(−rt)]. Constrained decay is shown as an exponential
+              decay comparison at 0.9r. These are clearly stated sample
+              assumptions because the screenshot does not show the original
+              source formulas.
+            </p>
+          </section>
+        </div>
+        <div class="footer">
+          Population Simulation Model · FE2 Integrated Systems
+        </div>
+      </section>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
